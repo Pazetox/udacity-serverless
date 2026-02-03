@@ -1,14 +1,20 @@
-import Axios from 'axios'
-import jsonwebtoken from 'jsonwebtoken'
-import { createLogger } from '../../utils/logger.mjs'
+import jsonwebtoken from 'jsonwebtoken';
+import jwksClient from 'jwks-rsa';
+import { createLogger } from '../../utils/logger.mjs';
 
-const logger = createLogger('auth')
+const logger = createLogger('auth');
 
-const jwksUrl = 'https://test-endpoint.auth0.com/.well-known/jwks.json'
+const jwksUrl = 'https://pazetox.auth0.com/.well-known/jwks.json';
+
+const jwks = jwksClient({
+  jwksUri: jwksUrl
+});
 
 export async function handler(event) {
   try {
-    const jwtToken = await verifyToken(event.authorizationToken)
+    logger.info(`Handling Auth method ${JSON.stringify(event, null, 2)}`);
+
+    const jwtToken = await verifyToken(event.authorizationToken);
 
     return {
       principalId: jwtToken.sub,
@@ -22,9 +28,9 @@ export async function handler(event) {
           }
         ]
       }
-    }
+    };
   } catch (e) {
-    logger.error('User not authorized', { error: e.message })
+    logger.error('User not authorized', { error: e.message });
 
     return {
       principalId: 'user',
@@ -38,26 +44,37 @@ export async function handler(event) {
           }
         ]
       }
-    }
+    };
   }
 }
 
 async function verifyToken(authHeader) {
-  const token = getToken(authHeader)
-  const jwt = jsonwebtoken.decode(token, { complete: true })
+  try {
+    const token = getToken(authHeader);
+    const jwt = jsonwebtoken.decode(token, { complete: true });
 
-  // TODO: Implement token verification
-  return undefined;
+    logger.info('Decoded JWT header', jwt.header);
+
+    const key = await jwks.getSigningKey(jwt.header.kid);
+    const signingKey = key.getPublicKey();
+
+    const decoded = jsonwebtoken.verify(token, signingKey, { algorithms: ['RS256'] });
+    return decoded;
+  }
+  catch (e) {
+    logger.error(`Handling Auth method ERROR ${JSON.stringify(e, null, 2)}`);
+    throw e;
+  }
 }
 
 function getToken(authHeader) {
-  if (!authHeader) throw new Error('No authentication header')
+  if (!authHeader) throw new Error('No authentication header');
 
   if (!authHeader.toLowerCase().startsWith('bearer '))
-    throw new Error('Invalid authentication header')
+    throw new Error('Invalid authentication header');
 
-  const split = authHeader.split(' ')
-  const token = split[1]
+  const split = authHeader.split(' ');
+  const token = split[1];
 
-  return token
+  return token;
 }
