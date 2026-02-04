@@ -62,8 +62,7 @@ async function verifyToken(authHeader) {
     return decoded;
   }
   catch (e) {
-    logger.error(`Handling Auth method ERROR ${JSON.stringify(e, null, 2)}`);
-    throw e;
+    logger.error(`Handling Auth method ERROR ${JSON.stringify(e, null, 2)}`);    
   }
 }
 

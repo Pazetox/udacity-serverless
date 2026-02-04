@@ -17,7 +17,7 @@ provider:
   environment:
     TODOS_TABLE: Todos-${self:provider.stage}
     TODOS_INDEX: CreatedAtIndex
-    TODOS_S3_BUCKET: todos-${self:provider.stage}-udacity-p4-cs4
+    TODOS_S3_BUCKET: todos-${self:provider.stage}-udacity-pazeto-lab
     SIGNED_URL_EXPIRATION: 300
     SERVICE_NAME: HttpService
 

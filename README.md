@@ -195,3 +195,29 @@ We can then use curl command to upload an image (`image.jpg` in this example) to
 curl -X PUT -T image.jpg -L "https://serverless-c4-todo-images.s3.us-east-1.amazonaws.com/...&x-id=PutObject"
 ```
 
+command:  npm run deploy or serverless deploy
+
+> serverless-todo-app@1.0.0 deploy
+> serverless deploy
+
+
+Deploying "serverless-todo-app" to stage "dev" (us-east-1)
+
+[!] serverless-iam-roles-per-function: This plugin's functionality is now built into the Framework. You can safely remove the plugin and use the new per-function IAM features documented here: https://www.serverless.com/framework/docs/providers/aws/guide/iam
+
+✔ Service deployed to stack serverless-todo-app-dev (191s)
+
+endpoints:
+  GET - https://kt04jxdbyl.execute-api.us-east-1.amazonaws.com/dev/todos
+  POST - https://kt04jxdbyl.execute-api.us-east-1.amazonaws.com/dev/todos
+  PATCH - https://kt04jxdbyl.execute-api.us-east-1.amazonaws.com/dev/todos/{todoId}
+  DELETE - https://kt04jxdbyl.execute-api.us-east-1.amazonaws.com/dev/todos/{todoId}
+  POST - https://kt04jxdbyl.execute-api.us-east-1.amazonaws.com/dev/todos/{todoId}/attachment
+functions:
+  Auth: serverless-todo-app-dev-Auth (11 MB)
+  GetTodos: serverless-todo-app-dev-GetTodos (11 MB)
+  CreateTodo: serverless-todo-app-dev-CreateTodo (11 MB)
+  UpdateTodo: serverless-todo-app-dev-UpdateTodo (11 MB)
+  DeleteTodo: serverless-todo-app-dev-DeleteTodo (11 MB)
+  GenerateUploadUrl: serverless-todo-app-dev-GenerateUploadUrl (11 MB)
+

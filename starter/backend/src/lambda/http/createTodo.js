@@ -8,7 +8,8 @@ import { create } from '../../business/businessTodos.mjs'
 import { CloudWatchClient, PutMetricDataCommand } from "@aws-sdk/client-cloudwatch";
 
 // Name of a service
-const serviceName = `process.env.SERVICE_NAME${'-Create'}`
+const serviceName = `${process.env.SERVICE_NAME}-Create`;
+
 
 // CloudWatch client
 const cloudwatch = new CloudWatchClient();
@@ -61,7 +62,7 @@ async function sendMetrics(totalTime) {
         Value: totalTime
       }
     ],
-    Namespace: 'Udacity/Serveless'
+    Namespace: 'Udacity/Serverless'
   })
   await cloudwatch.send(latencyMetricCommand)
 }
