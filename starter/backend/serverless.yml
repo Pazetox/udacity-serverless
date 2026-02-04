@@ -6,7 +6,7 @@ plugins:
 
 provider:
   name: aws
-  runtime: nodejs16.x
+  runtime: nodejs18.x
 
   stage: ${opt:stage, 'dev'}
   region: ${opt:region, 'us-east-1'}
@@ -43,8 +43,8 @@ functions:
         Action:
           - xray:PutTraceSegments
           - xray:PutTelemetryRecords
-        Resource:
-          - '*'
+          - cloudwatch:PutMetricData
+        Resource: '*'
 
   CreateTodo:
     handler: src/lambda/http/createTodo.handler
@@ -64,10 +64,10 @@ functions:
         Resource: arn:aws:dynamodb:${self:provider.region}:*:table/${self:provider.environment.TODOS_TABLE}
       - Effect: Allow
         Action:
-          - 'xray:PutTraceSegments'
-          - 'xray:PutTelemetryRecords'
-        Resource:
-          - '*'
+          - xray:PutTraceSegments
+          - xray:PutTelemetryRecords
+          - cloudwatch:PutMetricData
+        Resource: '*'
 
   UpdateTodo:
     handler: src/lambda/http/updateTodo.handler
@@ -87,10 +87,10 @@ functions:
         Resource: arn:aws:dynamodb:${self:provider.region}:*:table/${self:provider.environment.TODOS_TABLE}
       - Effect: Allow
         Action:
-          - 'xray:PutTraceSegments'
-          - 'xray:PutTelemetryRecords'
-        Resource:
-          - '*'
+          - xray:PutTraceSegments
+          - xray:PutTelemetryRecords
+          - cloudwatch:PutMetricData
+        Resource: '*'
 
   DeleteTodo:
     handler: src/lambda/http/deleteTodo.handler
@@ -111,10 +111,10 @@ functions:
         Resource: arn:aws:s3:::${self:provider.environment.TODOS_S3_BUCKET}/*
       - Effect: Allow
         Action:
-          - 'xray:PutTraceSegments'
-          - 'xray:PutTelemetryRecords'
-        Resource:
-          - '*'
+          - xray:PutTraceSegments
+          - xray:PutTelemetryRecords
+          - cloudwatch:PutMetricData
+        Resource: '*'
 
   GenerateUploadUrl:
     handler: src/lambda/http/generateUploadUrl.handler
@@ -135,10 +135,10 @@ functions:
         Resource: arn:aws:s3:::${self:provider.environment.TODOS_S3_BUCKET}/*
       - Effect: Allow
         Action:
-          - 'xray:PutTraceSegments'
-          - 'xray:PutTelemetryRecords'
-        Resource:
-          - '*'
+          - xray:PutTraceSegments
+          - xray:PutTelemetryRecords
+          - cloudwatch:PutMetricData
+        Resource: '*'
 
 resources:
   Resources:
