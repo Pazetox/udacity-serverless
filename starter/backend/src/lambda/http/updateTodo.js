@@ -65,3 +65,7 @@ export const handler = middy()
       })
       await cloudwatch.send(latencyMetricCommand)
     }
+
+function timeInMs() {
+  return new Date().getTime()
+}    
