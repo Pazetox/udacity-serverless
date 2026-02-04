@@ -221,3 +221,13 @@ functions:
   DeleteTodo: serverless-todo-app-dev-DeleteTodo (11 MB)
   GenerateUploadUrl: serverless-todo-app-dev-GenerateUploadUrl (11 MB)
 
+Request URL
+https://kt04jxdbyl.execute-api.us-east-1.amazonaws.com/dev/todos
+Request Method
+GET
+Status Code
+401 Unauthorized
+Remote Address
+18.155.21.127:443
+Referrer Policy
+strict-origin-when-cross-origin
