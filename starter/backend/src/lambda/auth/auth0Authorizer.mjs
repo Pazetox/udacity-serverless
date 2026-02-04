@@ -63,6 +63,7 @@ async function verifyToken(authHeader) {
   }
   catch (e) {
     logger.error(`Handling Auth method ERROR ${JSON.stringify(e, null, 2)}`);
+    throw e;
   }
 }
 
