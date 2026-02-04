@@ -53,7 +53,7 @@ export class TodosDataAccess {
     }
 
     async updateItem(item) {
-        logger.info('DataLayer - UpdateItem');
+        this.logger.info('DataLayer - UpdateItem');
 
         const newTodo = await this.database.update({
             TableName: this.todos,
