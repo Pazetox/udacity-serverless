@@ -4,7 +4,7 @@ import ReactDOM from 'react-dom'
 import 'semantic-ui-css/semantic.min.css'
 import App from './App'
 import './index.css'
-import {API_ENDPOINT, AUTH0_DOMAIN, AUTH0_CLIENT_ID, AUTH0_AUDIENCE_ENDPOINT} from './config'
+import { AUTH0_DOMAIN, AUTH0_CLIENT_ID} from './config'
 
 const domain = AUTH0_DOMAIN
 const clientId = AUTH0_CLIENT_ID

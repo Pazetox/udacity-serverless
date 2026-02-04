@@ -1,18 +1,26 @@
 import { useAuth0 } from '@auth0/auth0-react'
 import dateFormat from 'dateformat'
 import React, { useState } from 'react'
-import { Divider, Grid, Input } from 'semantic-ui-react'
+import { Divider, Grid, Input, Label } from 'semantic-ui-react'
 import { createTodo } from '../api/todos-api'
+import { AUTH0_AUDIENCE_ENDPOINT } from '../config'
 
 export function NewTodoInput({ onNewTodo }) {
   const [newTodoName, setNewTodoName] = useState('')
+  const [error, setError] = useState(false)
 
   const { getAccessTokenSilently } = useAuth0()
 
-  const onTodoCreate = async (event) => {
+  const onTodoCreate = async () => {
+    if (!newTodoName.trim()) {
+      setError(true) 
+      return
+    }
+    setError(false)
+
     try {
       const accessToken = await getAccessTokenSilently({
-        audience: `https://test-endpoint.auth0.com/api/v2/`,
+        audience: `${AUTH0_AUDIENCE_ENDPOINT}`,
         scope: 'write:todos'
       })
       const dueDate = calculateDueDate()
@@ -21,6 +29,7 @@ export function NewTodoInput({ onNewTodo }) {
         dueDate
       })
       onNewTodo(createdTodo)
+      setNewTodoName('') 
     } catch (e) {
       console.log('Failed to created a new TODO', e)
       alert('Todo creation failed')
@@ -41,8 +50,19 @@ export function NewTodoInput({ onNewTodo }) {
           fluid
           actionPosition="left"
           placeholder="To change the world..."
-          onChange={(event) => setNewTodoName(event.target.value)}
+          value={newTodoName}
+          onChange={(event) => {
+            setNewTodoName(event.target.value)
+            setError(false) 
+          }}
+          onFocus={() => setError(false)} 
+          error={error}
         />
+        {error && (
+          <Label basic color="red" pointing>
+            Required Field
+          </Label>
+        )}
       </Grid.Column>
       <Grid.Column width={16}>
         <Divider />

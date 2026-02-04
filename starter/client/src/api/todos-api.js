@@ -1,5 +1,5 @@
 import Axios from 'axios'
-import {API_ENDPOINT, AUTH0_DOMAIN, AUTH0_CLIENT_ID, AUTH0_AUDIENCE_ENDPOINT} from '../config'
+import {API_ENDPOINT} from '../config'
 
 export async function getTodos(idToken) {
   console.log('Fetching todos')
