@@ -1,7 +1,7 @@
 import middy from '@middy/core'
 import cors from '@middy/http-cors'
 import httpErrorHandler from '@middy/http-error-handler'
-import { update } from '../../businessLogic/todos.mjs'
+import { update } from '../../business/businessTodos.mjs'
 import { createLogger } from '../../utils/logger.mjs'
 import { getUserId } from '../utils.mjs'
 import { CloudWatchClient, PutMetricDataCommand } from "@aws-sdk/client-cloudwatch";
