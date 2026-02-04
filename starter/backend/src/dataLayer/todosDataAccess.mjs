@@ -1,29 +1,31 @@
 import { DynamoDB } from '@aws-sdk/client-dynamodb'
 import { DynamoDBDocument } from '@aws-sdk/lib-dynamodb'
 import AWSXRay from 'aws-xray-sdk-core'
+import { createLogger } from '../../utils/logger.mjs'
 
-export class TodosDataAccess 
-{    
+export class TodosDataAccess {
+
     constructor() {
         this.todos = process.env.TODOS_TABLE
         this.todoIndex = process.env.TODOS_INDEX
         this.database = DynamoDBDocument.from(AWSXRay.captureAWSv3Client(new DynamoDB()))
+        this.logger = createLogger('datalayer');
     }
 
     async createItem(item) {
-        logger.info('DataLayer - CreateItem');
+        this.logger.info('DataLayer - CreateItem');
         await this.database.put({ TableName: this.todos, Item: item })
         return item
     }
 
     async deleteItem(todoId, userId) {
-        logger.info('DataLayer - DeleteItem');
+        this.logger.info('DataLayer - DeleteItem');
         const isRemoved = await this.database.delete({ TableName: this.todos, Key: { todoId, userId } })
         return isRemoved
     }
 
     async getListOfTodo(userId) {
-        logger.info('DataLayer - GetListOfItems');
+        this.logger.info('DataLayer - GetListOfItems');
 
         const todos = await this.database.query({
             TableName: this.todos,
@@ -37,7 +39,7 @@ export class TodosDataAccess
     }
 
     async saveImgUrl(userId, todoId, bucketName) {
-        logger.info('DataLayer - SaveImgUrl');
+        this.logger.info('DataLayer - SaveImgUrl');
 
         await this.database.update({
             TableName: this.todos,

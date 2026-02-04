@@ -27,7 +27,7 @@ export const handler = middy()
     let endTime
 
     logger.info(`Getting Todos method ${JSON.stringify(event, null, 2)}`)
-    
+
     const userId = getUserId(event)
     const todos = await getTodos(userId)
     logger.info('Getted items!: ', todos)
@@ -47,25 +47,25 @@ export const handler = middy()
     }
   })
 
-  async function sendMetrics(totalTime) {
-        const latencyMetricCommand = new PutMetricDataCommand({
-          MetricData: [
-            {
-              MetricName: 'Latency',
-              Dimensions: [
-                {
-                  Name: 'ServiceName',
-                  Value: serviceName
-                }
-              ],
-              Unit: 'Milliseconds',
-              Value: totalTime
-            }
-          ],
-          Namespace: 'Udacity/Serverless'
-        })
-        await cloudwatch.send(latencyMetricCommand)
+async function sendMetrics(totalTime) {
+  const latencyMetricCommand = new PutMetricDataCommand({
+    MetricData: [
+      {
+        MetricName: 'Latency',
+        Dimensions: [
+          {
+            Name: 'ServiceName',
+            Value: serviceName
+          }
+        ],
+        Unit: 'Milliseconds',
+        Value: totalTime
       }
+    ],
+    Namespace: 'Udacity/Serverless'
+  })
+  await cloudwatch.send(latencyMetricCommand)
+}
 
 function timeInMs() {
   return new Date().getTime()

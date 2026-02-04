@@ -3,8 +3,7 @@ import { TodosDataAccess } from '../dataLayer/todosDataAccess.mjs'
 
 const todoDataAccess = new TodosDataAccess()
 
-export const create = async (req, userId) => 
-{
+export const create = async (req, userId) => {
     const todoId = v4()
     return await todoDataAccess.createItem({
         todoId,
@@ -16,8 +15,7 @@ export const create = async (req, userId) =>
     })
 }
 
-export const update = async (req, todoId, userId) => 
-{
+export const update = async (req, todoId, userId) => {
     return await todoDataAccess.updateItem({
         todoId,
         name: req.name,

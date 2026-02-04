@@ -46,26 +46,26 @@ export const handler = middy()
       })
     }
   })
-  
-  async function sendMetrics(totalTime) {
-      const latencyMetricCommand = new PutMetricDataCommand({
-        MetricData: [
+
+async function sendMetrics(totalTime) {
+  const latencyMetricCommand = new PutMetricDataCommand({
+    MetricData: [
+      {
+        MetricName: 'Latency',
+        Dimensions: [
           {
-            MetricName: 'Latency',
-            Dimensions: [
-              {
-                Name: 'ServiceName',
-                Value: serviceName
-              }
-            ],
-            Unit: 'Milliseconds',
-            Value: totalTime
+            Name: 'ServiceName',
+            Value: serviceName
           }
         ],
-        Namespace: 'Udacity/Serverless'
-      })
-      await cloudwatch.send(latencyMetricCommand)
-    }
+        Unit: 'Milliseconds',
+        Value: totalTime
+      }
+    ],
+    Namespace: 'Udacity/Serverless'
+  })
+  await cloudwatch.send(latencyMetricCommand)
+}
 
 function timeInMs() {
   return new Date().getTime()
